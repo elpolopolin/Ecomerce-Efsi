@@ -21,7 +21,7 @@ function Home() {
 
   return (
     <>
-      <h1>Home</h1>
+      <h1 className="">Home</h1>
       <form onSubmit={handleSearch}>
         <input type="number" value={personaId} onChange={handleInputChange} />
         <button type="submit">Buscar Persona</button>
