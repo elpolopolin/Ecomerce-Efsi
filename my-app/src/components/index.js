@@ -1,11 +1,17 @@
-import React from 'react';
-
+import React, { useContext, useState, useEffect } from "react";
+import { UsuarioContext } from '../context/UserContext';
 
 const Index = () => {
+
+  const usuario = useContext(UsuarioContext);
+
+  useEffect(() => {
+    console.log(usuario); //el user llega por contexto a cada componente y parte de la app.
+  }, []); 
+
+
   return (
     <div>
-     
-
 {/* SECTION 1*/}
       <div className="section">
       {/* container */}
