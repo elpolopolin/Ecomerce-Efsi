@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from "react";
+import { ProductContext } from '../App.js'
+import { useParams } from 'react-router-dom';
+import axios from "axios";
 
 const ProductDetail = () => {
+  const { productId } = useParams();
+  const [ProductoMostrar, setProductoMostrar] = useState({});
+
+  useEffect(() => {
+   cargarProducto();
+    }, []);
+
+  let cargarProducto = () => {
+    axios
+    .get("https://dummyjson.com/products/" + productId)
+    .then((result) => {
+      console.log("traigo el axios: " + result.data)
+      setProductoMostrar(result.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   return (
     <div>
       {/* BREADCRUMB */}
@@ -13,7 +35,7 @@ const ProductDetail = () => {
                 <li><a href="#">All Categories</a></li>
                 <li><a href="#">Accessories</a></li>
                 <li><a href="#">Headphones</a></li>
-                <li className="active">Product name goes here</li>
+                <li className="active"> </li>
               </ul>
             </div>
           </div>
@@ -29,7 +51,7 @@ const ProductDetail = () => {
             <div className="col-md-5 col-md-push-2">
               <div id="product-main-img">
                 <div className="product-preview">
-                  <img src="./img/product01.png" alt="" />
+                  <img src={ProductoMostrar.thumbnail} alt="" />
                 </div>
                 {/* Add more product-preview divs with different images */}
               </div>
@@ -39,10 +61,12 @@ const ProductDetail = () => {
             {/* Product thumb imgs */}
             <div className="col-md-2 col-md-pull-5">
               <div id="product-imgs">
+              {ProductoMostrar.images.map((image) => (
                 <div className="product-preview">
-                  <img src="./img/product01.png" alt="" />
+                  <img src={image} alt="" />
                 </div>
-                {/* Add more product-preview divs with different images */}
+              ))}
+                
               </div>
             </div>
             {/* /Product thumb imgs */}
@@ -50,14 +74,16 @@ const ProductDetail = () => {
             {/* Product details */}
             <div className="col-md-5">
               <div className="product-details">
-                <h2 className="product-name">product name goes here</h2>
+                <h2 className="product-name">{ProductoMostrar.title}</h2>
                 <div>
                   <div className="product-rating">
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star-o"></i>
+                  {(() => {
+                  const stars = [];
+                  for (let i = 0.5; i < ProductoMostrar.rating; i++) {
+                    stars.push(<i key={i} className="fa fa-star"></i>);
+                  }
+                    return stars;
+                  })()}
                   </div>
                   <a className="review-link" href="#">10 Review(s) | Add your review</a>
                 </div>

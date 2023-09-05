@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UsuarioContext } from '../context/UserContext';
 import { ProductContext } from '../App.js'
+import { Link } from "react-router-dom";
 
 const Index = () => {
 
@@ -149,6 +150,7 @@ const Index = () => {
                       style={{ display: "flex", overflowX: "auto" }}
                     >
                       {filteredProducts.map((product) => (
+                         <Link to={`ProductDetail/${product.id}`} key={product.id} className="cursor-pointer">
                         <div
                           className="product"
                           key={product.id}
@@ -156,6 +158,7 @@ const Index = () => {
                             flex: "0 0 auto",
                             padding: "0 10px",
                             width: "300px", // Ajustar el ancho de la tarjeta
+                            
                             
                           }}
                         >
@@ -216,6 +219,7 @@ const Index = () => {
                             </button>
                           </div>
                         </div>
+                        </Link>
                       ))}
                     </div>
                     <div id="slick-nav-1" className="products-slick-nav"></div>
