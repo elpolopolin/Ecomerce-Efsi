@@ -6,22 +6,34 @@ import axios from "axios";
 const ProductDetail = () => {
   const { productId } = useParams();
   const [ProductoMostrar, setProductoMostrar] = useState({});
+  const [productosRelacionados, setProductosRelacionados] = useState([]);
+
+  const AllProducts = useContext(ProductContext); // Obtén el contexto de productos
 
   useEffect(() => {
    cargarProducto();
     }, []);
 
-  let cargarProducto = () => {
-    axios
-    .get("https://dummyjson.com/products/" + productId)
-    .then((result) => {
-      console.log("traigo el axios: " + result.data)
-      setProductoMostrar(result.data)
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
+    let cargarProducto = () => {
+      const productosCategoriaIgual = [];
+      axios
+        .get("https://dummyjson.com/products/" + productId)
+        .then((result) => {
+          console.log("traigo el axios: " + result.data);
+          setProductoMostrar(result.data);
+          AllProducts.forEach((product) => {
+            if (product.category === result.data.category) {
+              productosCategoriaIgual.push(product); // Cambié += a push para agregar productos coincidentes
+            }
+          });
+          console.log(productosCategoriaIgual);
+          setProductosRelacionados(productosCategoriaIgual); // Mueve esta línea dentro del bloque `.then`
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
 
   return (
     <div>
@@ -56,17 +68,16 @@ const ProductDetail = () => {
                 {/* Add more product-preview divs with different images */}
               </div>
             </div>
-            {/* /Product main img */}
+                        {/* /Product main img */}
 
-            {/* Product thumb imgs */}
-            <div className="col-md-2 col-md-pull-5">
+                        <div className="col-md-2 col-md-pull-5">
               <div id="product-imgs">
-              {ProductoMostrar.images.map((image) => (
-                <div className="product-preview">
-                  <img src={image} alt="" />
-                </div>
-              ))}
-                
+                {ProductoMostrar.images != null &&
+                  ProductoMostrar.images.map((image, index) => (
+                    <div className="product-preview" key={index}>
+                      <img src={image} alt="" />
+                    </div>
+                  ))}
               </div>
             </div>
             {/* /Product thumb imgs */}
@@ -159,7 +170,7 @@ const ProductDetail = () => {
                   <div id="tab1" className="tab-pane fade in active">
                     <div className="row">
                       <div className="col-md-12">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p>{ProductoMostrar.description}</p>
                       </div>
                     </div>
                   </div>
@@ -169,8 +180,7 @@ const ProductDetail = () => {
                   <div id="tab2" className="tab-pane fade in">
                     <div className="row">
                       <div className="col-md-12">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                      </div>
+                        <p> </p>
                     </div>
                   </div>
                   {/* /tab2  */}
@@ -286,189 +296,60 @@ const ProductDetail = () => {
                 </div>
             </div>
 
-            {/* Product 1 */}
-            <div className="col-md-3 col-xs-6">
-                <div className="product">
-                <div className="product-img">
-                    <img src="./img/product01.png" alt="" />
-                    <div className="product-label">
-                    <span className="sale">-30%</span>
-                    </div>
-                </div>
-                <div className="product-body">
-                    <p className="product-category">Category</p>
-                    <h3 className="product-name">
-                    <a href="#">product name goes here</a>
-                    </h3>
-                    <h4 className="product-price">
-                    $980.00 <del className="product-old-price">$990.00</del>
-                    </h4>
-                    <div className="product-rating"></div>
-                    <div className="product-btns">
-                    <button className="add-to-wishlist">
-                        <i className="fa fa-heart-o"></i>
-                        <span className="tooltipp">add to wishlist</span>
-                    </button>
-                    <button className="add-to-compare">
-                        <i className="fa fa-exchange"></i>
-                        <span className="tooltipp">add to compare</span>
-                    </button>
-                    <button className="quick-view">
-                        <i className="fa fa-eye"></i>
-                        <span className="tooltipp">quick view</span>
-                    </button>
-                    </div>
-                </div>
-                <div className="add-to-cart">
-                    <button className="add-to-cart-btn">
-                    <i className="fa fa-shopping-cart"></i> add to cart
-                    </button>
-                </div>
-                </div>
-            </div>
-            {/* /Product 1 */}
+            {productosRelacionados.map((product) =>
 
-            {/* Product 2 */}
-            <div className="col-md-3 col-xs-6">
-                <div className="product">
-                <div className="product-img">
-                    <img src="./img/product02.png" alt="" />
-                    <div className="product-label">
-                    <span className="new">NEW</span>
-                    </div>
-                </div>
-                <div className="product-body">
-                    <p className="product-category">Category</p>
-                    <h3 className="product-name">
-                    <a href="#">product name goes here</a>
-                    </h3>
-                    <h4 className="product-price">
-                    $980.00 <del className="product-old-price">$990.00</del>
-                    </h4>
-                    <div className="product-rating">
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    </div>
-                    <div className="product-btns">
-                    <button className="add-to-wishlist">
-                        <i className="fa fa-heart-o"></i>
-                        <span className="tooltipp">add to wishlist</span>
-                    </button>
-                    <button className="add-to-compare">
-                        <i className="fa fa-exchange"></i>
-                        <span className="tooltipp">add to compare</span>
-                    </button>
-                    <button className="quick-view">
-                        <i className="fa fa-eye"></i>
-                        <span className="tooltipp">quick view</span>
-                    </button>
-                    </div>
-                </div>
-                <div className="add-to-cart">
-                    <button className="add-to-cart-btn">
-                    <i className="fa fa-shopping-cart"></i> add to cart
-                    </button>
-                </div>
-                </div>
-            </div>
-            {/* /Product 2 */}
+              <div className="col-md-3 col-xs-6">
+              <div className="product">
+              <div className="product-img">
+                  <img src={product.thumbnail} alt="" />
+                  <div className="product-label">
+                  <span className="sale">-30%</span>
+                  </div>
+              </div>
+              <div className="product-body">
+                  <p className="product-category">Category</p>
+                  <h3 className="product-name">
+                  <a href="#">{product.title}</a>
+                  </h3>
+                  <h4 className="product-price">
+                  {product.price} $ <del className="product-old-price"></del>
+                  </h4>
+                  <div className="product-rating"></div>
+                  <div className="product-btns">
+                  <button className="add-to-wishlist">
+                      <i className="fa fa-heart-o"></i>
+                      <span className="tooltipp">add to wishlist</span>
+                  </button>
+                  <button className="add-to-compare">
+                      <i className="fa fa-exchange"></i>
+                      <span className="tooltipp">add to compare</span>
+                  </button>
+                  <button className="quick-view">
+                      <i className="fa fa-eye"></i>
+                      <span className="tooltipp">quick view</span>
+                  </button>
+                  </div>
+              </div>
+              <div className="add-to-cart">
+                  <button className="add-to-cart-btn">
+                  <i className="fa fa-shopping-cart"></i> add to cart
+                  </button>
+              </div>
+              </div>
+          </div>
+              )}
+            
+      
 
-            <div className="clearfix visible-sm visible-xs"></div>
-
-            {/* Product 3 */}
-            <div className="col-md-3 col-xs-6">
-                <div className="product">
-                <div className="product-img">
-                    <img src="./img/product03.png" alt="" />
-                </div>
-                <div className="product-body">
-                    <p className="product-category">Category</p>
-                    <h3 className="product-name">
-                    <a href="#">product name goes here</a>
-                    </h3>
-                    <h4 className="product-price">
-                    $980.00 <del className="product-old-price">$990.00</del>
-                    </h4>
-                    <div className="product-rating">
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star"></i>
-                    <i className="fa fa-star-o"></i>
-                    </div>
-                    <div className="product-btns">
-                    <button className="add-to-wishlist">
-                        <i className="fa fa-heart-o"></i>
-                        <span className="tooltipp">add to wishlist</span>
-                    </button>
-                    <button className="add-to-compare">
-                        <i className="fa fa-exchange"></i>
-                        <span className="tooltipp">add to compare</span>
-                    </button>
-                    <button className="quick-view">
-                        <i className="fa fa-eye"></i>
-                        <span className="tooltipp">quick view</span>
-                    </button>
-                    </div>
-                </div>
-                <div className="add-to-cart">
-                    <button className="add-to-cart-btn">
-                    <i className="fa fa-shopping-cart"></i> add to cart
-                    </button>
-                </div>
-                </div>
-            </div>
-            {/* /Product 3 */}
-
-            {/* Product 4 */}
-            <div className="col-md-3 col-xs-6">
-                <div className="product">
-                <div className="product-img">
-                    <img src="./img/product04.png" alt="" />
-                </div>
-                <div className="product-body">
-                    <p className="product-category">Category</p>
-                    <h3 className="product-name">
-                    <a href="#">product name goes here</a>
-                    </h3>
-                    <h4 className="product-price">
-                    $980.00 <del className="product-old-price">$990.00</del>
-                    </h4>
-                    <div className="product-rating"></div>
-                    <div className="product-btns">
-                    <button className="add-to-wishlist">
-                        <i className="fa fa-heart-o"></i>
-                        <span className="tooltipp">add to wishlist</span>
-                    </button>
-                    <button className="add-to-compare">
-                        <i className="fa fa-exchange"></i>
-                        <span className="tooltipp">add to compare</span>
-                    </button>
-                    <button className="quick-view">
-                        <i className="fa fa-eye"></i>
-                        <span className="tooltipp">quick view</span>
-                    </button>
-                    </div>
-                </div>
-                <div className="add-to-cart">
-                    <button className="add-to-cart-btn">
-                    <i className="fa fa-shopping-cart"></i> add to cart
-                    </button>
-                </div>
-                </div>
-            </div>
-            {/* /Product 4 */}
-            </div>
-            {/* /row */}
-        </div>
-        {/* /container */}
-        </div>
-     {/* /Related Products */}
-
+      {/* Related Products */}
     </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    
+
 
 
   );
