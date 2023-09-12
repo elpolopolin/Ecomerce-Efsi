@@ -1,14 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ProductContext } from '../App.js'
+
 import { useParams } from 'react-router-dom';
 import axios from "axios";
+import { ProductContext } from "../context/ProductContext";
+
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const [ProductoMostrar, setProductoMostrar] = useState({});
   const [productosRelacionados, setProductosRelacionados] = useState([]);
 
-  const AllProducts = useContext(ProductContext); // Obtén el contexto de productos
+  const {products: AllProducts} = useContext(ProductContext); // Obtén el contexto de productos
 
   useEffect(() => {
    cargarProducto();

@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UsuarioContext } from '../context/UserContext';
-import { ProductContext } from '../App.js'
+
 import { Link } from "react-router-dom";
+import AllProducts from "./AllProducts";
+import { ProductContext } from "../context/ProductContext";
 
 const Index = () => {
 
   const usuario = useContext(UsuarioContext);
-  const products = useContext(ProductContext)
+  const {products} = useContext(ProductContext)
   const [selectedCategory, setSelectedCategory] = useState("smartphones"); // Estado para la categoría seleccionada
 
   // Filtrar productos basados en la categoría seleccionada
@@ -238,44 +240,13 @@ const Index = () => {
 
 
   {/* Todos los productos section */}
-  <div className="section">
-        <div className="container ">
-          <div className="row">
-            {products.map(product => (
-              <div className="col-md-4 col-xs-6 .bg-light" key={product.id} >
-                <div className="section-title ">
-                
-                  <div className="section-nav">
-                    <div className="products-slick-nav" id={`slick-nav-${product.id}`}></div>
-                  </div>
-                </div>
-                <div className="products-widget-slick" data-nav={`#slick-nav-${product.id}`}>
-                  <ProductWidget product={product} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
+     <AllProducts />
       
     {/* Products section final */}
     </div>
   );
 };
 
-function ProductWidget({ product }) {
-  return (
-    <div className="product-widget">
-      <div className="product-img">
-        <img src={product.images[1]} alt={product.name} />
-      </div>
-      <div className="product-body">
-        <p className="product-category">{product.category}</p>
-        <h3 className="product-name"><a href="#">{product.title}</a></h3>
-        <h4 className="product-price">${product.price} <del className="product-old-price">${product.oldPrice}</del></h4>
-      </div>
-    </div>
-  );
-}
 
 export default Index;

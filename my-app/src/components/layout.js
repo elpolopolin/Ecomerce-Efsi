@@ -1,7 +1,16 @@
 import { Link, Outlet } from "react-router-dom";
-
+import React, { useContext, useState, useEffect } from "react";
+import { ProductContext } from '../App.js'
+import axios from "axios";
 
 const Layout = () => {
+
+  const {filterBySearch} = useContext(ProductContext);
+
+const filterProducts = () =>{
+  filterBySearch('nombre categoria')
+}
+
   return (
     <>
      {/* HEADER */}
@@ -11,17 +20,17 @@ const Layout = () => {
             <ul className="header-links pull-left">
               <li>
                 <a href="#">
-                  <i className="fa fa-phone"></i> +021-95-51-84
+                  <i className="fa fa-phone"></i> 11 2293 2039
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <i className="fa fa-envelope-o"></i> email@email.com
+                  <i className="fa fa-envelope-o"></i> polopolin@email.com
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <i className="fa fa-map-marker"></i> 1734 Stonecoal Road
+                  <i className="fa fa-map-marker"></i> Guardia Vieja y Medrano
                 </a>
               </li>
             </ul>
@@ -157,21 +166,18 @@ const Layout = () => {
         <div id="responsive-nav">
           {/* NAV */}
           <ul className="main-nav nav navbar-nav">
-            <li className="nav-item active">
+            <li className="nav-item">
             <Link to="/" className="nav-link">
                 Home
             </Link>
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Hot Deals
-              </a>
+
+            <li className="nav-item ">
+            <Link to="/allProducts/todos" className="nav-link">
+                Products
+            </Link>
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Categories
-              </a>
-            </li>
+
             <li className="nav-item">
               <a href="#" className="nav-link">
                 Laptops

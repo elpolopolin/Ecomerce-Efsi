@@ -5,57 +5,32 @@ import UsuarioProvider from './context/UserContext';
 import { UsuarioContext } from './context/UserContext';
 import axios from "axios";
 
+import CategoriasProvider from './context/CategoriasContext';
 import Layout from './components/layout';
 import Home from './components/home';
-import Tienda from './components/tienda';
-import Persona from './components/persona';
 import Index from './components/index';
 import ProductDetail from './components/ProductDetails';
 import Newsletter from './components/NewsLetter';
 import Footer from './components/Footer';
+import AllProducts from './components/AllProducts';
+import ProductProvider from './context/ProductContext';
 
-
-export const ProductContext = createContext();
-
-
-function App() {
-
-  const usuario = useContext(UsuarioContext);
-  
-  const [products, setProducts] = useState([]);
-  
-  useEffect(() => {
-    cargarProducts();
-    
-}, []); 
-
-const cargarProducts = () => {
-    axios
-    .get("https://dummyjson.com/products/")
-    .then((result) => {
-      const productos = result.data.products;
-      console.log(productos)
-      setProducts(productos);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+function App() {  
 
   return (
 
     <BrowserRouter>
-      
+
+     <CategoriasProvider>
       <UsuarioProvider>
-      <ProductContext.Provider value={products}>
-        
+      <ProductProvider>        
         <Layout /> 
 
             <Routes>
               <Route index element={<Index />} />
               <Route path="/tienda" element={<Home /> } />
-              <Route path="/persona/:personaId" element={<Persona/>} />
               <Route path="/ProductDetail/:productId" element={<ProductDetail />} />
+              <Route path="/allProducts/:categoria" element={<AllProducts />} />
               <Route path="*" element={<h1>404</h1>}></Route>
             </Routes>
 
@@ -63,9 +38,10 @@ const cargarProducts = () => {
           <Newsletter />
           <Footer />
         
-        </ProductContext.Provider>
+        </ProductProvider>
         </UsuarioProvider>
-        
+        </CategoriasProvider>
+
     </BrowserRouter>  
   );
 }
