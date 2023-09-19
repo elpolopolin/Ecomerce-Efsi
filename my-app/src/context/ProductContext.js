@@ -4,42 +4,59 @@ import axios from "axios";
 export const ProductContext = createContext();
 
 const ProductProvider = (props) => {
+  const [products, setProducts] = useState([]);
+  const [productsFilter, setProductsFilter] = useState([]);
 
-    const [products, setProducts] = useState([]);
+  useEffect(() => {
+    cargarProducts();
+  }, []);
+
+  const filterBySearch = (category, text) => {
+    let filteredProducts = products;
   
-    useEffect(() => {
-      cargarProducts();
-      
-  }, []); 
-
-  const filterBySearch = (category)=>{
-
-  }
+    if (category !== '') {
+      filteredProducts = filteredProducts.filter(product =>
+        product.category.toLowerCase() === category.toLowerCase()
+      );
+    }
   
+    if (text !== '') {
+      filteredProducts = filteredProducts.filter(product =>
+        product.title.toLowerCase().includes(text.toLowerCase())
+      );
+    }
+  
+    setProductsFilter(filteredProducts);
+  };
+
+
+
   const cargarProducts = () => {
-      axios
+    axios
       .get("https://dummyjson.com/products/")
       .then((result) => {
         const productos = result.data.products;
-        console.log(productos)
         setProducts(productos);
+        setProductsFilter(productos);
+
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-  
-    return (
-        <ProductContext.Provider
-          value={{
-            products,
-            filterBySearch
-          }}
-        >
-          {props.children}
-        </ProductContext.Provider>
-      );
+  };
 
+  return (
+    <ProductContext.Provider
+      value={{
+        products,
+        productsFilter,
+        filterBySearch,
+        cargarProducts
+      }}
+    >
+      {props.children}
+    </ProductContext.Provider>
+  );
 };
 
 export default ProductProvider;

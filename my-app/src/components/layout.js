@@ -1,15 +1,19 @@
 import { Link, Outlet } from "react-router-dom";
 import React, { useContext, useState, useEffect } from "react";
-import { ProductContext } from '../App.js'
+import { ProductContext } from "../context/ProductContext";
 import axios from "axios";
+import { CategoriasContext } from "../context/CategoriasContext";
 
 const Layout = () => {
 
-  const {filterBySearch} = useContext(ProductContext);
+  const { filterBySearch } = useContext(ProductContext);
+  const { categories } = useContext(CategoriasContext);
 
-const filterProducts = () =>{
-  filterBySearch('nombre categoria')
-}
+  const filterProducts = () => {
+    const categoria = document.querySelector("#categoriaInput").value;
+    const texto = document.querySelector("#inputText").value;
+    filterBySearch(categoria, texto); // Replace with actual category    
+  };
 
   return (
     <>
@@ -65,14 +69,16 @@ const filterProducts = () =>{
               {/* searchBar */}
               <div className="col-md-6">
                 <div className="header-search">
-                  <form>
-                    <select className="input-select">
-                      <option value="0">All Categories</option>
-                      <option value="1">Category 01</option>
-                      <option value="1">Category 02</option>
+                  <form onSubmit={(e)=>e.preventDefault()}>
+                    <select id="categoriaInput" className="input-select">
+                      <option value="">All Categories</option>
+                      {categories.map(categoria=>(
+                        <option key={categoria} value={categoria}>{categoria}</option>
+                      ))}
+                      
                     </select>
-                    <input className="input" placeholder="Search here" />
-                    <button className="search-btn">Search</button>
+                    <input id="inputText" className="input" placeholder="Search here" />
+                    <button className="search-btn" onClick={filterProducts}>Search</button>
                   </form>
                 </div>
               </div>

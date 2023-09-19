@@ -8,12 +8,12 @@ import { ProductContext } from "../context/ProductContext";
 const AllProducts = () => {
     const { categoria } = useParams();
 
-    const {products} = useContext(ProductContext); // Obtén el contexto de productos
+    const {productsFilter} = useContext(ProductContext); // Obtén el contexto de productos
 
     const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
 
-  const handleSearch = products.filter((product) => {
+  const handleSearch = productsFilter.filter((product) => {
     const NameProductMatches = product.title.toLowerCase().includes(searchTerm.toLowerCase());
     const CategoriaMatches = product.category.includes(searchCategory);
 
@@ -26,7 +26,7 @@ const AllProducts = () => {
         <div className="section">
         <div className="container ">
           <div className="row">
-            {products.map(product => (
+            {productsFilter.map(product => (
               <div className="col-md-4 col-xs-6 .bg-light" key={product.id} >
                 <div className="section-title ">
                 
@@ -48,7 +48,7 @@ const AllProducts = () => {
 
 function ProductWidget({ product }) {
     return (
-      <Link to={`ProductDetail/${product.id}`} key={product.id} className="cursor-pointer">
+      <Link to={`/ProductDetail/${product.id}`} key={product.id} className="cursor-pointer">
       <div className="product-widget">
         <div className="product-img">
           <img src={product.images[1]} alt={product.name} />

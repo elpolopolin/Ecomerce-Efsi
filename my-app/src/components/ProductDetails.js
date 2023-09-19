@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const [ProductoMostrar, setProductoMostrar] = useState({});
   const [productosRelacionados, setProductosRelacionados] = useState([]);
 
-  const {products: AllProducts} = useContext(ProductContext); // Obtén el contexto de productos
+  const {productsFilter: AllProducts} = useContext(ProductContext); // Obtén el contexto de productos
 
   useEffect(() => {
    cargarProducto();
