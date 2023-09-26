@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import UsuarioProvider from './context/UserContext';
 import { UsuarioContext } from './context/UserContext';
 import axios from "axios";
+import { CartProvider } from './context/CarritoContext';
 
 import CategoriasProvider from './context/CategoriasContext';
 import Layout from './components/layout';
@@ -14,13 +15,15 @@ import Newsletter from './components/NewsLetter';
 import Footer from './components/Footer';
 import AllProducts from './components/AllProducts';
 import ProductProvider from './context/ProductContext';
+import AboutUs from './components/aboutUs';
+import Cart from './components/Cart';
 
 function App() {  
 
   return (
 
     <BrowserRouter>
-
+      <CartProvider>
      <CategoriasProvider>
       <UsuarioProvider>
       <ProductProvider>        
@@ -31,6 +34,8 @@ function App() {
               <Route path="/tienda" element={<Home /> } />
               <Route path="/ProductDetail/:productId" element={<ProductDetail />} />
               <Route path="/allProducts/:categoria" element={<AllProducts />} />
+              <Route path="/aboutus" element={< AboutUs />} />
+              <Route path="/cart" element={< Cart />} />
               <Route path="*" element={<h1>404</h1>}></Route>
             </Routes>
 
@@ -41,7 +46,7 @@ function App() {
         </ProductProvider>
         </UsuarioProvider>
         </CategoriasProvider>
-
+        </CartProvider>
     </BrowserRouter>  
   );
 }

@@ -92,16 +92,25 @@ const Layout = () => {
                       <div className="qty">2</div>
                     </a>
                   </div>
+                 
                   <div className="dropdown">
                     <a
                       className="dropdown-toggle"
                       data-toggle="dropdown"
                       aria-expanded="true"
                     >
-                      <i className="fa fa-shopping-cart"></i>
+                       
+                      <i className="fa fa-shopping-cart">
+                      </i>
+                      <Link to="/cart" className="text-white" style={{color: "white"}}>
+                    
                       <span>Your Cart</span>
+                      
+                      </Link>
                       <div className="qty">3</div>
+
                     </a>
+                    
                     <div className="cart-dropdown">
                       <div className="cart-list">
                         <div className="product-widget">
@@ -120,6 +129,7 @@ const Layout = () => {
                             <i className="fa fa-close"></i>
                           </button>
                         </div>
+                        
 
                         <div className="product-widget">
                           <div className="product-img">
@@ -150,7 +160,6 @@ const Layout = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="menu-toggle">
                     <a href="#">
                       <i className="fa fa-bars"></i>
@@ -183,27 +192,15 @@ const Layout = () => {
                 Products
             </Link>
             </li>
-
+            
             <li className="nav-item">
+            <Link to="/aboutus" className="nav-link">
               <a href="#" className="nav-link">
-                Laptops
+                About us
               </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Smartphones
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Cameras
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                Accessories
-              </a>
-            </li>
+            
           </ul>
           {/* /NAV */}
         </div>

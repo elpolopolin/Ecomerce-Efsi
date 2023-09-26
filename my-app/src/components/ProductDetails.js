@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-
+import { CartContext } from '../context/CarritoContext'; 
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import { ProductContext } from "../context/ProductContext";
 
 
 const ProductDetail = () => {
+  const { addToCart } = useContext(CartContext);
   const { productId } = useParams();
   const [ProductoMostrar, setProductoMostrar] = useState({});
   const [productosRelacionados, setProductosRelacionados] = useState([]);
@@ -35,6 +36,11 @@ const ProductDetail = () => {
           console.log(error);
         });
     };
+
+    const handleAgregarCarrito = (item) => {
+      console.log(item)
+      addToCart(item);
+    }
 
 
   return (
@@ -130,7 +136,7 @@ const ProductDetail = () => {
                       <span className="qty-down">-</span>
                     </div>
                   </div>
-                  <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
+                  <button className="add-to-cart-btn" onClick={() => handleAgregarCarrito(ProductoMostrar)}><i className="fa fa-shopping-cart"></i> add to cart</button>
                 </div>
 
                 <ul className="product-btns">
