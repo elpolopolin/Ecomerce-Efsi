@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { CartContext } from '../context/CarritoContext'; 
-import { useParams } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
+
 import axios from "axios";
 import { ProductContext } from "../context/ProductContext";
+import { Link } from "react-router-dom";
 
 
 const ProductDetail = () => {
@@ -13,6 +15,12 @@ const ProductDetail = () => {
 
   const {productsFilter: AllProducts} = useContext(ProductContext); // Obtén el contexto de productos
 
+  const handleRefresh = () => {
+    // Navegar a la página actual y recargar después de un pequeño retraso
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
   useEffect(() => {
    cargarProducto();
     }, []);
@@ -307,6 +315,7 @@ const ProductDetail = () => {
             {productosRelacionados.map((product) =>
 
               <div className="col-md-3 col-xs-6">
+                 <Link to={`/ProductDetail/${product.id}`} key={product.id} className="cursor-pointer" onClick={handleRefresh}>
               <div className="product">
               <div className="product-img">
                   <img src={product.thumbnail} alt="" />
@@ -344,6 +353,7 @@ const ProductDetail = () => {
                   </button>
               </div>
               </div>
+              </Link>
           </div>
               )}
             
