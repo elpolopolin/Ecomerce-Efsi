@@ -4,8 +4,11 @@ import React, { useContext, useState, useEffect } from "react";
 
 const Cart = () => {
     const { cart } = useContext(CartContext);
+    const { removeFromCart } = useContext(CartContext);
+    
 
     useEffect(() => {
+
         console.log("carrito: ", cart);
     }, []);
 
@@ -36,7 +39,7 @@ const Cart = () => {
                   <div className="product-rating"></div>
                   <div className="product-btns">
                   
-                  <button className="remove">
+                  <button className="remove" onClick={() => removeFromCart(product.id)}>
                       <i className="fa fa-remove text-danger"></i>
                       <span className="tooltipp">Remove</span>
                   </button>
@@ -49,9 +52,13 @@ const Cart = () => {
                 </div>
                 <br></br>
                 
-                <div className="text-center">
-                <button className="btn btn-secondary btn-lg" style={{ marginTop: "20px" }}>Comprar</button>
-            </div>
+                    <div className="text-center">
+                    <button className="btn btn-secondary btn-lg" style={{ marginTop: "20px" }}>Comprar</button>
+                    </div>
+                    
+                
+                
+            
         </div>
     );
 };
