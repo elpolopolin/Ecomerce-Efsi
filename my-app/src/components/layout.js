@@ -3,17 +3,26 @@ import React, { useContext, useState, useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 import axios from "axios";
 import { CategoriasContext } from "../context/CategoriasContext";
+import { CartContext } from '../context/CarritoContext'; 
 
 const Layout = () => {
 
   const { filterBySearch } = useContext(ProductContext);
   const { categories } = useContext(CategoriasContext);
+  const { cart } = useContext(CartContext);
+  const [cartCount, setCartCount] = useState(0);
 
   const filterProducts = () => {
     const categoria = document.querySelector("#categoriaInput").value;
     const texto = document.querySelector("#inputText").value;
     filterBySearch(categoria, texto); // Replace with actual category    
   };
+
+  useEffect(() => {
+    // Calcular la cantidad total de productos en el carrito
+    const totalCount = Object.values(cart).reduce((total, item) => total + (item.quantity || 0), 0);
+    setCartCount(totalCount);
+  }, [cart]);
 
   return (
     <>
@@ -107,7 +116,7 @@ const Layout = () => {
                       <span>Your Cart</span>
                       
                       </Link>
-                      <div className="qty">3</div>
+                      <div className="qty">{cartCount}</div>
 
                     </a>
                     
